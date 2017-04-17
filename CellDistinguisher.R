@@ -266,12 +266,10 @@ gecd_CellDistinguisher <- function (
     ## for low-expression markers, reducing their value as
     ## distinguishers and thus favoring high-expression markers.
 
-    ## The use of dilution is IP!
-
     ## This looks for the quantile of the non-zero data.  By focusing
     ## on the non-zero data, we do not get results that depend upon
     ## how many zero-expressed genes were cleaned from the data prior
-    ## to this point.  This is IP!
+    ## to this point.  
 
     aDilution <- quantile(exprLinear[exprLinear > 1e-12], probs = c(0, expressionQuantileForScale), names = FALSE, type= 6)
     dilution <- aDilution[2] - aDilution[1]
@@ -289,7 +287,7 @@ gecd_CellDistinguisher <- function (
     ## adjusted).  The rows of Qbaradj are points in space for which
     ## we want to find the convex hull.
     ##
-    ## For speed purposes (this is IP!) we will not actually compute
+    ## For speed purposes we will not actually compute
     ## the Q matrices; when we need the Q matrices it is in
     ## combination with other matrices, and the optimal associative
     ## order of multiplying the matrices together in these situations
@@ -540,8 +538,7 @@ gecd_CellDistinguisher <- function (
     len <- length(passOneDistinguishers)
     if (len == 1) {
       ## Find the points farthest from the origin in the same
-      ## direction as the original distinguisher.  That we use the
-      ## same direction is IP!
+      ## direction as the original distinguisher. 
       project <- exprLinearBarAdj[passOneDistinguishers[1], , drop = FALSE]
       lengths <- gecd_MatrixChainMultiplication(
           exprLinearBarAdj,
@@ -549,8 +546,7 @@ gecd_CellDistinguisher <- function (
           t(project),
           verbose = verbose - 3)
       lengths <- lengths / sqrt(lengths[passOneDistinguishers[1]])
-
-      ## The returning of multiple alternatives is IP!
+        
       bestDistinguishers <- order(lengths, decreasing = TRUE)[1:maxDistinguisherAlternatives]
       bestLengths <- lengths[bestDistinguishers]
       bestLengthsNormalized <- bestLengths / bestLengths[1]
@@ -569,7 +565,6 @@ gecd_CellDistinguisher <- function (
           bestLengths = bestLengths,
           bestLengthsNormalized = bestLengthsNormalized))
     } else {
-      ## The divide-and-conquer approach is IP!
 
       ## We will process 1:mid1 and mid2:len recursively
       mid1 <- (len + 1) %/% 2
@@ -797,9 +792,8 @@ gecd_DeconvolutionByDistinguishers <- function (
       verbose = verbose - 3)
 
   ## ####################################################################
-  ## Compute cellSubclassSignatures.  See Lee Newberg's lab notebook
-  ## #1 entries for 11/6/2014 as tweaked in the lab notebook #2 entry
-  ## for 4/19/2016.  convexCoefficients[probe, cellSubclass] is the
+  ## Compute cellSubclassSignatures.  
+  ## convexCoefficients[probe, cellSubclass] is the
   ## probability of cellSubclass given the probe
   ## ####################################################################
 
