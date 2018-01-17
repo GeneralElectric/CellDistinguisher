@@ -2,6 +2,7 @@ library(Matrix)                         #Needed by gecd_CellDistinguisher
 library(CellMix)                        #Needed by gecd_DeconvolutionCellMix
 library(GEOquery)                       #Needed by one-time use of gecd_DataLoader$GSE* routines.
 library(biomaRt)
+library(gtools)                         #mixedsort/mixedorder, combinations/permutation, r/ddirichlet
 
 ######################################################################
 ### gecd_CellDistinguisher: finds distinguishers that identify
