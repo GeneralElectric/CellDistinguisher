@@ -1,53 +1,14 @@
-### source("CellDistinguisher.R")
-
 library(Matrix)                         #Needed by gecd_CellDistinguisher
 library(CellMix)                        #Needed by gecd_DeconvolutionCellMix
 library(GEOquery)                       #Needed by one-time use of gecd_DataLoader$GSE* routines.
 library(biomaRt)
-### library(parallel)                       #Unused
-### library(gtools)                         #mixedsort/mixedorder, combinations/permutation, r/ddirichlet
-### library(stats)
-### library(survival)
 
 ######################################################################
 ### gecd_CellDistinguisher: finds distinguishers that identify
 ### specific cell classes without having to know the cell classes.
 ###
-### gecd_CellDistinguisher is an algorithm in the spirit of Algorithm
-### 4 of Arora (2013), which cites Nascimento & Bioucas Dias (2005).
-### Arora picks the first distinguisher as farthest from the origin,
-### but we can instead choose the first distinguisher as farthest from
-### the centroid.  Then, like Arora 2013, we re-center the data on the
-### first distinguisher and then begin an iteration to find additional
-### distinguishers.  The iteration chooses the next distinguisher as
-### that which is farthest from the origin, where the origin is the
-### location of all previous distinguishers.  The data is then
-### orthogonally projected so that the new distinguisher is projected
-### to the origin, thus merging the new distinguisher with the
-### previous distinguishers.
-###
-### Via the expressionQuantileForScale argument, the
-### gecd_CellDistinguisher procedure further differs from Arora (2013)
-### in that we allow a trade off between the desires of having a
-### distinguisher be exclusive to a single cell class and having an
-### distinguisher with decently high expression in that cell class.
-###
-### Via the numDistinguisherAlternatives argument, the
-### gecd_CellDistinguisher procedure further differs from Arora (2013)
-### in that, in its second pass, it returns multiple candidate
-### distinguishers for each cell class.
-###
-### Rationale for seeking the vertices of a simplex:
-###
-### When there is a distinguisher present in only one cell class then
-### the distribution given that distinguisher is the distribution
-### given that cell class.  Samples of multiple cell classes will have
-### signatures that are a convex combination of the class expressions.
-### That is, the distinguishers are expected to have expressions that
-### are the vertices of the simplex of all sample expressions.
-###
-### When the data points (rows of Qbar) fill a simplex, this procedure
-### is expected to find the vertices of the simplex.
+### See the article and supplementary materials for a description of
+### the algorithm.
 ######################################################################
 
 gecd_CellDistinguisher <- function (
