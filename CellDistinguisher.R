@@ -1,7 +1,6 @@
 library(Matrix)                         #Needed by gecd_CellDistinguisher
 library(CellMix)                        #Needed by gecd_DeconvolutionCellMix
 library(GEOquery)                       #Needed by one-time use of gecd_DataLoader$GSE* routines.
-library(biomaRt)
 library(gtools)                         #mixedsort/mixedorder, combinations/permutation, r/ddirichlet
 
 ######################################################################
@@ -62,19 +61,40 @@ gecd_CellDistinguisher <- function (
   ## Return values
   ## ##################################################################
   ##
-  ## $bestDistinguishers = a matrix of the probes of the discovered
-  ## distinguishers.  The first column belongs to the first cell
-  ## class, etc.
+  ## $bestDistinguishers (deprecated) = a matrix of the probes of the
+  ## discovered distinguishers.  The first column belongs to the first
+  ## cell class, etc.
   ##
-  ## $bestLengths = the (diluted) distance of each distinguisher from
-  ## the span of the passOneDistinguishers for the other cell classes.
+  ## $bestDistinguishersGeneNames (deprecated) = organized like
+  ## bestDistinguishers but populated with gene symbols (if supplied)
+  ## rather than probe names.
   ##
-  ## $bestLengthsNormalized = each $bestLengths value is normalized by
-  ## the length for the best distinguisher for its cell subclass
+  ## $bestLengths (deprecated) = the (diluted) distance of each
+  ## distinguisher from the span of the passOneDistinguishers for the
+  ## other cell classes.
   ##
-  ## $passOneDistinguishers = the distinguishers discovered durring
+  ## $bestLengthsNormalized (deprecated) = each $bestLengths value is
+  ## normalized by the length for the best distinguisher for its cell
+  ## subclass
+  ##
+  ## $passOneDistinguishers (deprecated) = the distinguishers discovered durring
   ## the first pass, which are refined to produce the list of
   ## bestDistinguishers.
+  ##
+  ## $passOneDistinguishersGeneNames (deprecated) = organized like
+  ## passOneDistinguishers but populated with gene symbols (if
+  ## supplied) rather than probe names.
+  ##
+  ## $passOneLengths (deprecated) = the (diluted) distance of each
+  ## passOne distinguisher from the span of the passOneDistinguishers
+  ## for the other cell classes.
+  ##
+  ## $bestDistinguishersFrame = a data frame with rich information
+  ## about the best distinguishers found in the input data.
+  ##
+  ## $passOneDistinguishersFrame = a data frame with rich information
+  ## about the tentative distinguishers found in the first pass of the
+  ## input data.
 
   ## ##################################################################
   ## Variables that are global to gecd_CellDistinguisher and its
@@ -150,11 +170,8 @@ gecd_CellDistinguisher <- function (
     ## footing
     ## ################################################################
 
-    ## Note that this normalization has the advantage of effectively
-    ## converting FPKM (or RPKM) values to TPM values.
-
-    ## Side note: Arora (2013) assumes that the entries of exprLinear
-    ## are integer counts of transcripts (words) and does a minor
+    ## Note: Arora (2013) assumes that the entries of exprLinear are
+    ## integer counts of transcripts (words) and does a minor
     ## correction for the fact that two transcripts selected at random
     ## from a sample are not independent if they are the same instance
     ## of the same transcript.  When the exprLinear values are not
@@ -1248,7 +1265,6 @@ gecd_DataLoader$read.table <- function (filename) {
            pmid = NA))
 }
 
-
 ######################################################################
 ### Simple simulated data
 
@@ -1264,7 +1280,6 @@ gecd_DataLoader$simulated <- function (numGenes = 22283, numSamples = 21, numCel
            exprLinearClasses = exprLinearClasses,
            pmid = NA))
 }
-
 
 ######################################################################
 ### A simulated toy example for testing
@@ -1326,7 +1341,6 @@ gecd_DataLoader$toy.example <- function (numCellClasses = 5, numMarkers = 20000,
            exprLinearClasses = CellClassExpressions,
            pmid = NA))
 }
-
 
 ######################################################################
 ### GSEGeneric is a function that retrieves and parses a GSE structure
@@ -1460,7 +1474,6 @@ gecd_DataLoader$GSEGeneric <- function (gseGEO=NULL, retrievedAs=NULL, genesymbC
   }
   return(platformsList)
 }
-
 
 ######################################################################
 ### GSE19830
@@ -1646,7 +1659,6 @@ gecd_DataAnalyzer$GSE19830 <- function () {
   corr <- cor(allIn, allOut)
 }
 
-
 ######################################################################
 ### GSETemplate
 ### http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSETemplate
@@ -1701,7 +1713,6 @@ gecd_DataAnalyzer$GSETemplate <- function () {
   source("CellDistinguisher.R")
   GSETemplateData <- gecd_DataLoader$GSETemplate()
 }
-
 
 ######################################################################
 ### gecd_DataLoader$mergeListOfDataSets: Combine a list of data sets
@@ -1768,4 +1779,3 @@ gecd_DataLoader$mergeListOfDataSets <- function (listOfDataSets) {
              pmid = NULL))
   }
 }
-
