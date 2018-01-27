@@ -1,0 +1,27 @@
+Package: CellDistinguisher
+Title: Computational de novo Discovery of Distinguishing Genes for Biological Processes and Cell Types in Complex Tissues
+Version: 1.0
+Authors@R: c(
+    person("Lee A.", "Newberg", email = "nmf@quant.consulting.com", role = c("aut", "cph", "cre")),
+    person("Xiaowei", "Chen", email = "chenxiaowei33@gmail.com", role = c("aut", "cph")),
+    person("Chinnappa D.", "Kodira", email = "chinnappa.kodira@ge.com", role = c("aut", "cph")),
+    person("Maria I.", "Zavodszky", email = "maria.zavodszky@ge.com", role = c("aut", "cph"))
+    )
+Description: Bulk tissue samples examined by gene expression studies
+    are usually heterogeneous. The data gained from these samples
+    display the confounding patterns of mixtures consisting of
+    multiple cell types or similar cell types in various functional
+    states, which hinders the elucidation of the molecular mechanisms
+    underlying complex biological phenomena. A realistic approach to
+    compensate for the limitations of experimentally separating
+    homogenous cell populations from mixed tissues is to
+    computationally identify cell-type specific patterns from bulk,
+    heterogeneous measurements. We designed the CellDistinguisher
+    algorithm to analyze the gene expression data of mixed samples,
+    identifying genes that best distinguish biological processes and
+    cell types.
+Depends: R (>= 3.3)
+License: File License
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1

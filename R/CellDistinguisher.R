@@ -1,6 +1,8 @@
+#' @import Matrix
+#' @import gtools
+NULL
+
 library(Matrix)                         #Needed by gecd_CellDistinguisher
-library(CellMix)                        #Needed by gecd_DeconvolutionCellMix
-library(GEOquery)                       #Needed by one-time use of gecd_DataLoader$GSE* routines.
 library(gtools)                         #mixedsort/mixedorder, combinations/permutation, r/ddirichlet
 
 ######################################################################
@@ -10,6 +12,24 @@ library(gtools)                         #mixedsort/mixedorder, combinations/perm
 ### See the article and supplementary materials for a description of
 ### the algorithm.
 ######################################################################
+
+#' The gecd_CellDistinguisher function
+#'
+#' Finds distinguishers that identify specific cell classes without having to know the cell classes.
+#' @param exprLinear exprLinear is a matrix of (linear / non-logarithmic) expression values that has one row for each marker (a.k.a. probe or gene) and one column for each sample.
+#' @param genesymb genesymb is the associated gene names for the rows of exprLinear. They are not passed in as names(exprLinear) because multiple rows (probes) may map to the same gene.
+#' @param numCellClasses numCellClasses is the number of cell classes for which the function will locate class-specific distinguishers. Default is 2.
+#' @param minDistinguisherAlternatives minDistinguisherAlternatives is the minimum number of distinguishers to be located for each cell class. Default is 1.
+#' @param maxDistinguisherAlternatives maxDistinguisherAlternatives is the maximum number of distinguishers to be located for each cell class. Default is 5.
+#' @param minAlternativesLengthsNormalized minAlternativesLengthsNormalized is the threshold for bestLengthsNormalized values. Only alternatives with a value at least as large as the threshold are retained. Default is 0.7. 0.0 is no filtering.
+#' @param expressionQuantileForScale expressionQuantileForScale is in [0, 1]. Low values (e.g., 0.40) favor distinguishers for a cell class that have very little expression in the other cell classes. High values (e.g., 0.80) shift the balance towards distinguishers with high expression values. Default is 0.75. 0.0 is no preference for highly expressed genes.
+#' @param expressionQuantileForFilter Default is 1.0. 1.0 is no filtering. 0.999 is some filtering.
+#' @param expressionConcentrationRatio Default is 0.333. 0.0 is no filtering.
+#' @param probesWithGenesOnly Default is FALSE.
+#' @param verbose verbose indicates amount of printed output. Default is 0.
+#' @export
+#' @examples
+#' See https://github.com/GeneralElectric/CellDistinguisher/blob/master/README.txt
 
 gecd_CellDistinguisher <- function (
     exprLinear,
@@ -248,7 +268,7 @@ gecd_CellDistinguisher <- function (
     ## This looks for the quantile of the non-zero data.  By focusing
     ## on the non-zero data, we do not get results that depend upon
     ## how many zero-expressed genes were cleaned from the data prior
-    ## to this point.  
+    ## to this point.
 
     aDilution <- quantile(exprLinear[exprLinear > 1e-12], probs = c(0, expressionQuantileForScale), names = FALSE, type= 6)
     dilution <- aDilution[2] - aDilution[1]
@@ -517,7 +537,7 @@ gecd_CellDistinguisher <- function (
     len <- length(passOneDistinguishers)
     if (len == 1) {
       ## Find the points farthest from the origin in the same
-      ## direction as the original distinguisher. 
+      ## direction as the original distinguisher.
       project <- exprLinearBarAdj[passOneDistinguishers[1], , drop = FALSE]
       lengths <- gecd_MatrixChainMultiplication(
           exprLinearBarAdj,
@@ -525,7 +545,7 @@ gecd_CellDistinguisher <- function (
           t(project),
           verbose = verbose - 3)
       lengths <- lengths / sqrt(lengths[passOneDistinguishers[1]])
-        
+
       bestDistinguishers <- order(lengths, decreasing = TRUE)[1:maxDistinguisherAlternatives]
       bestLengths <- lengths[bestDistinguishers]
       bestLengthsNormalized <- bestLengths / bestLengths[1]
@@ -718,6 +738,18 @@ gecd_CellDistinguisher <- function (
 ### distinguishers to deconvolve the original expression data
 ######################################################################
 
+#' The gecd_DeconvolutionByDistinguishers function
+#'
+#' Uses the distinguishers discovered by gecd_CellDistinguisher to deconvolve the original expression data.
+#' @param exprLinear exprLinear is the matrix to be factored
+#' @param bestDistinguishers bestDistinguishers is the matrix of anchors that enable the factorization.
+#' @param nonNegativeOnly If set to TRUE strictly enforces that the entries in the matrix factors be non-negative. Default is TRUE.
+#' @param convexSolution If set to TRUE strictly enforces that the entries for a sample in the sampleComposition matrix sum to 1.0. Default is TRUE.
+#' @param verbose Default is 0.
+#' @export
+#' @examples
+#' See https://github.com/GeneralElectric/CellDistinguisher/blob/master/README.txt
+
 gecd_DeconvolutionByDistinguishers <- function (
     exprLinear,
     bestDistinguishers,
@@ -771,7 +803,7 @@ gecd_DeconvolutionByDistinguishers <- function (
       verbose = verbose - 3)
 
   ## ####################################################################
-  ## Compute cellSubclassSignatures.  
+  ## Compute cellSubclassSignatures.
   ## convexCoefficients[probe, cellSubclass] is the
   ## probability of cellSubclass given the probe
   ## ####################################################################
@@ -1035,6 +1067,19 @@ gecd_DeconvolutionByDistinguishers <- function (
 ### method="ssKL" and method="ssFrobenius".
 ######################################################################
 
+#' The gecd_DeconvolutionCellMix function
+#'
+#' gecd_DeconvolutionCellMix is a wrapper for the CellMix deconvolution tools.  This is probably most useful with method="ssKL" and method="ssFrobenius".
+#' @param exprLinear exprLinear is the matrix to be factored
+#' @param bestDistinguishers bestDistinguishers is the matrix of anchors that enable the factorization.
+#' @param nonNegativeOnly If set to TRUE strictly enforces that the entries in the matrix factors be non-negative. Default is TRUE.
+#' @param verbose Default is 0.
+#' @param log log parameter to be passed to the CellMix deconvolution tools. Default is FALSE.
+#' @param ... Additional parameters to be passed to the CellMix deconvolution tools.
+#' @export
+#' @examples
+#' See https://github.com/GeneralElectric/CellDistinguisher/blob/master/README.txt
+
 gecd_DeconvolutionCellMix <- function (
                                exprLinear,
                                bestDistinguishers,
@@ -1211,6 +1256,8 @@ gecd_mergeListOfDataframes <- function (listOfDataframes) {
 ######################################################################
 ### Structure with no gecd_DataLoader$* functions yet
 
+#' @export
+
 gecd_DataLoader <- data.frame(nrow=1)[0]   # one row, zero columns
 
 ######################################################################
@@ -1222,6 +1269,8 @@ gecd_DataLoader <- data.frame(nrow=1)[0]   # one row, zero columns
 
 ######################################################################
 ### Structure with no gecd_DataAnalyzer$* functions yet
+
+#' @export
 
 gecd_DataAnalyzer <- data.frame(nrow=1)[0]   # one row, zero columns
 
@@ -1533,10 +1582,9 @@ gecd_DataLoader$GSEGeneric <- function (gseGEO=NULL, retrievedAs=NULL, genesymbC
 ### Rev. 3) , following the manufacturer/s instructions. Data was RMA
 ### normalized.
 
-library(GEOquery)
 gecd_DataLoader$GSE19830 <- function () {
   if (FALSE) {
-  
+
     ## Run these steps once in R by cutting and pasting.
     source("CellDistinguisher.R")
     options(download.file.method='wget')
