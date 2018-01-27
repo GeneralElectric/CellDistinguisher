@@ -2,9 +2,6 @@
 #' @import gtools
 NULL
 
-library(Matrix)                         #Needed by gecd_CellDistinguisher
-library(gtools)                         #mixedsort/mixedorder, combinations/permutation, r/ddirichlet
-
 ######################################################################
 ### gecd_CellDistinguisher: finds distinguishers that identify
 ### specific cell classes without having to know the cell classes.
