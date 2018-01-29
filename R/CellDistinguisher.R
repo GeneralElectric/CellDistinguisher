@@ -1583,7 +1583,6 @@ gecd_DataLoader$GSE19830 <- function () {
   if (FALSE) {
 
     ## Run these steps once in R by cutting and pasting.
-    source("CellDistinguisher.R")
     options(download.file.method='wget')
     options(download.file.method.GEOquery='wget')
     GSE19830GEO <- getGEO("GSE19830", GSEMatrix=FALSE)
@@ -1622,7 +1621,6 @@ gecd_DataLoader$GSE19830 <- function () {
 
 gecd_DataAnalyzer$GSE19830 <- function () {
   rm(list=ls())
-  source("CellDistinguisher.R")
   MyData <- gecd_DataLoader$GSE19830()
   ## Convert genesymb from R factors to R strings
   MyData$genesymb <- levels(MyData$genesymb)[MyData$genesymb]
@@ -1719,7 +1717,6 @@ gecd_DataAnalyzer$GSE19830 <- function () {
 gecd_DataLoader$GSETemplate <- function () {
   if (FALSE) {
     ## Run these steps once in R by cutting and pasting.
-    source("../../CellDistinguisher-public.R")
     library("GEOquery")
     options(download.file.method='wget')
     options(download.file.method.GEOquery='wget')
@@ -1755,7 +1752,6 @@ gecd_DataLoader$GSETemplate <- function () {
 }
 
 gecd_DataAnalyzer$GSETemplate <- function () {
-  source("CellDistinguisher.R")
   GSETemplateData <- gecd_DataLoader$GSETemplate()
 }
 

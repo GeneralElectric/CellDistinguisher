@@ -6,8 +6,10 @@
 # exprLinear: a matrix of linear expression values with probes sets (or genes) as rows and samples as columns.
 # genesymb: a vector of gene names associated with the probe sets or NULL if not available.
 #
-# To run, have the input file and the CellDistinguisher.R in the working directory (or specify the path to their location)
-# Start R at the command line, then copy-paste the commands.
+# To run, get the software (see below) and your data.  Sample data
+# files are available at
+# https://github.com/GeneralElectric/CellDistinguisher/.  Start R at
+# the command line, then copy-paste the commands.
 
 #############################
 # Run CellDistinguisher using a local text file/matrix with linear gene expression data
