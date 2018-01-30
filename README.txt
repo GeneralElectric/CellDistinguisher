@@ -64,7 +64,7 @@ distinguishers <- gecd_CellDistinguisher(exprLinear, genesymb=NULL, numCellClass
 # Run deconvolution using these distinguishers
 deconvolution <- gecd_DeconvolutionByDistinguishers(exprLinear, distinguishers$bestDistinguishers, nonNegativeOnly = TRUE, convexSolution = TRUE, verbose = 0)
 
-# Alternatively, one of the deconvolution algorithms of CellMix (ssKL or ssFrobenius) can be used.  Note that you must install the CellMix package before running these command.
+# Alternatively, one of the deconvolution algorithms of CellMix (ssKL or ssFrobenius) can be used.  Note that you must install the CellMix package before running these commands.
 library(CellMix)
 deconvolutionSSKL <- gecd_DeconvolutionCellMix(exprLinear, distinguishers$bestDistinguishers, method="ssKL", maxIter=5)
 
@@ -111,7 +111,7 @@ write.table(round(celltypeSignatures,4),file="celltype_signatures.tsv",sep="\t",
 ### mixed sample was measured the same way.
 
 R
-## Note that you must install the GEOquery package before funning these commands.
+## Note that you must install the GEOquery package before running these commands.
 library(GEOquery)
 options(download.file.method='wget')
 options(download.file.method.GEOquery='wget')
