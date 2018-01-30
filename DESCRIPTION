@@ -20,6 +20,9 @@ Description: Bulk tissue samples examined by gene expression studies
     algorithm to analyze the gene expression data of mixed samples,
     identifying genes that best distinguish biological processes and
     cell types.
+Imports:
+    Matrix
+    gtools
 Depends: R (>= 3.3)
 License: File License
 Encoding: UTF-8
