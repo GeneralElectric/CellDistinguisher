@@ -31,7 +31,7 @@ R
            install.packages("devtools")
            library(devtools)
         }
-        install_git("git://github.com/GeneralElectric/CellDistinguisher")
+        install_github("GeneralElectric/CellDistinguisher")
         library(CellDistinguisher)
     }
 }
