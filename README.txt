@@ -26,13 +26,13 @@
 R
 # Get the software
 {
-    if (!require(CellDistinguisher)) {
-        if (!require(devtools)) {
+    if (!require("CellDistinguisher")) {
+        if (!require("devtools")) {
            install.packages("devtools")
-           library(devtools)
+           library("devtools")
         }
-        install_github("GeneralElectric/CellDistinguisher")
-        library(CellDistinguisher)
+        install_github("GeneralElectric/CellDistinguisher.git")
+        library("CellDistinguisher")
     }
 }
 
