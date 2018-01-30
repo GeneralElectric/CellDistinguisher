@@ -21,7 +21,13 @@
 # 2. Known expression signatures of the pure tissues: expression_signatures.pure_tissues.tsv
 #############################
 R
-# Get the software
+## Get the software.  You will need the gtools and Matrix packages.
+## You may also want the CellMix and GEOquery packages.  Note that if
+## the following approach using remote access does not work for
+## installing the CellDistinguisher package, you can download the
+## package directly from
+## https://github.com/GeneralElectric/CellDistinguisher/archive/master.tar.gz
+## and then install it with any approach that uses local files.
 {
     if (!suppressWarnings(require("gtools", quietly=TRUE))) {
         install.packages("gtools")
