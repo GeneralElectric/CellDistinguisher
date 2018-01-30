@@ -23,19 +23,16 @@
 R
 # Get the software
 {
-    ## Ignore errors: In library(package, lib.loc = lib.loc,
-    ## character.only = TRUE, logical.return = TRUE, : there is no
-    ## package called ...
-    if (!require("gtools")) {
+    if (!suppressWarnings(require("gtools", quietly=TRUE))) {
         install.packages("gtools")
         library("gtools")
     }
-    if (!require("Matrix")) {
+    if (!suppressWarnings(require("Matrix", quietly=TRUE))) {
         install.packages("Matrix")
         library("Matrix")
     }
-    if (!require("CellDistinguisher")) {
-        if (!require("devtools")) {
+    if (!suppressWarnings(require("CellDistinguisher", quietly=TRUE))) {
+        if (!suppressWarnings(require("devtools", quietly=TRUE))) {
            install.packages("devtools")
            library("devtools")
         }
