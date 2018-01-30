@@ -6,10 +6,7 @@
 # exprLinear: a matrix of linear expression values with probes sets (or genes) as rows and samples as columns.
 # genesymb: a vector of gene names associated with the probe sets or NULL if not available.
 #
-# To run, get the software (see below) and your data.  Sample data
-# files are available at
-# https://github.com/GeneralElectric/CellDistinguisher/.  Start R at
-# the command line, then copy-paste the commands.
+# To run, get the software and your data as described below.  Start R at the command line, then copy-paste the commands.
 
 #############################
 # Run CellDistinguisher using a local text file/matrix with linear gene expression data
@@ -31,13 +28,14 @@ R
            install.packages("devtools")
            library("devtools")
         }
-        install_github("GeneralElectric/CellDistinguisher.git")
+        install_github("GeneralElectric/CellDistinguisher")
         library("CellDistinguisher")
     }
 }
 
 # Read the data that contains gene symbols instead of probe ID-s in first columns
-inData <- as.matrix(read.table("expression_values.mixed_samples.tsv", sep="\t", header = TRUE, row.names = 1))
+inDataFile <- system.file("extdata", "expression_values.mixed_samples.tsv", package = "CellDistinguisher")
+inData <- as.matrix(read.table(inDataFile, sep="\t", header = TRUE, row.names = 1))
 
 # Remove lines with all 0 elements
 # Expression data is often stored as log values. In such cases, make sure it is transformed back to linear.
