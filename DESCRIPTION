@@ -2,7 +2,7 @@ Package: CellDistinguisher
 Title: Computational de novo Discovery of Distinguishing Genes for Biological Processes and Cell Types in Complex Tissues
 Version: 1.0
 Authors@R: c(
-    person("Lee A.", "Newberg", email = "nmf@quant.consulting.com", role = c("aut", "cph", "cre")),
+    person("Lee A.", "Newberg", email = "nmf@quantconsulting.com", role = c("aut", "cph", "cre")),
     person("Xiaowei", "Chen", email = "chenxiaowei33@gmail.com", role = c("aut", "cph")),
     person("Chinnappa D.", "Kodira", email = "chinnappa.kodira@ge.com", role = c("aut", "cph")),
     person("Maria I.", "Zavodszky", email = "maria.zavodszky@ge.com", role = c("aut", "cph"))
